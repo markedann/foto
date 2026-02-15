@@ -1,6 +1,7 @@
 "use client";
 
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
+import Script from "next/script";
 import {
   Upload,
   X,
@@ -16,9 +17,24 @@ import {
   FileCheck,
   Briefcase,
   Users,
+  Clock,
+  ShieldAlert,
 } from "lucide-react";
 
-type Status = "idle" | "preview" | "loading" | "done" | "error";
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (
+        container: string | HTMLElement,
+        options: Record<string, unknown>
+      ) => string;
+      reset: (widgetId: string) => void;
+      getResponse: (widgetId: string) => string | undefined;
+    };
+  }
+}
+
+type Status = "idle" | "preview" | "loading" | "done" | "error" | "rate-limited";
 type PhotoType = "biometric" | "lebenslauf";
 type PersonType = "man" | "woman" | "teen_male" | "teen_female";
 
@@ -220,8 +236,77 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
   const [resultUrl, setResultUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
+  const [resetCountdown, setResetCountdown] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<File | null>(null);
+
+  // Turnstile
+  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+  const turnstileWidgetId = useRef<string | null>(null);
+  const turnstileToken = useRef<string | null>(null);
+  const turnstileReady = useRef(false);
+
+  const SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
+
+  // Initialize Turnstile widget once the script is loaded
+  const initTurnstile = useCallback(() => {
+    if (
+      !window.turnstile ||
+      !turnstileContainerRef.current ||
+      turnstileWidgetId.current ||
+      !SITE_KEY
+    )
+      return;
+    turnstileReady.current = true;
+    turnstileWidgetId.current = window.turnstile.render(
+      turnstileContainerRef.current,
+      {
+        sitekey: SITE_KEY,
+        size: "invisible",
+        callback: (token: string) => {
+          turnstileToken.current = token;
+        },
+        "error-callback": () => {
+          turnstileToken.current = null;
+        },
+        "expired-callback": () => {
+          turnstileToken.current = null;
+        },
+      }
+    );
+  }, [SITE_KEY]);
+
+  // Check rate limit on mount
+  useEffect(() => {
+    fetch("/api/rate-limit")
+      .then((r) => r.json())
+      .then((data) => {
+        if (!data.allowed && data.resetInSeconds > 0) {
+          setResetCountdown(data.resetInSeconds);
+          setStatus("rate-limited");
+        }
+      })
+      .catch(() => {
+        // Fail open
+      });
+  }, []);
+
+  // Countdown timer for rate-limited state
+  useEffect(() => {
+    if (resetCountdown <= 0) return;
+    const timer = setInterval(() => {
+      setResetCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          // Automatically unlock when timer expires
+          setStatus("idle");
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [resetCountdown]);
 
   const handleFile = useCallback((file: File) => {
     if (!file.type.startsWith("image/")) {
@@ -291,12 +376,40 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
       formData.append("photoType", photoType);
       formData.append("personType", personType);
 
+      // Attach Turnstile token if available
+      if (turnstileToken.current) {
+        formData.append("turnstileToken", turnstileToken.current);
+      }
+
       const res = await fetch("/api/generate", {
         method: "POST",
         body: formData,
       });
 
       const data = await res.json();
+
+      // Handle rate limiting
+      if (res.status === 429 && data.rateLimited) {
+        setResetCountdown(data.resetInSeconds || 86400);
+        setStatus("rate-limited");
+        // Reset Turnstile for next attempt
+        if (turnstileWidgetId.current && window.turnstile) {
+          window.turnstile.reset(turnstileWidgetId.current);
+          turnstileToken.current = null;
+        }
+        return;
+      }
+
+      // Handle Turnstile failure
+      if (res.status === 403) {
+        setError(data.error || "Sicherheitspruefung fehlgeschlagen.");
+        setStatus("error");
+        if (turnstileWidgetId.current && window.turnstile) {
+          window.turnstile.reset(turnstileWidgetId.current);
+          turnstileToken.current = null;
+        }
+        return;
+      }
 
       if (!res.ok) {
         throw new Error(data.error || "Fehler bei der Verarbeitung.");
@@ -351,6 +464,16 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
 
   return (
     <section id="upload" className="relative px-4 py-16 md:py-24" ref={ref}>
+      {/* Cloudflare Turnstile invisible widget */}
+      {SITE_KEY && (
+        <Script
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad"
+          strategy="afterInteractive"
+          onReady={initTurnstile}
+        />
+      )}
+      <div ref={turnstileContainerRef} className="hidden" />
+
       <div className="mx-auto max-w-2xl">
         <div className="mb-10 text-center">
           <span className="mb-3 inline-block rounded-md bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
@@ -621,6 +744,34 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
                   Neu
                 </button>
               </div>
+            </div>
+          )}
+
+          {/* Rate Limited */}
+          {status === "rate-limited" && (
+            <div className="flex flex-col items-center justify-center px-6 py-16 md:px-8">
+              <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/10 text-accent">
+                <ShieldAlert className="h-7 w-7" />
+              </div>
+              <p className="mb-1.5 text-base font-semibold text-foreground">
+                Tageslimit erreicht
+              </p>
+              <p className="mb-5 max-w-sm text-center text-sm text-muted-foreground">
+                Sie haben Ihr kostenloses Foto fuer heute bereits generiert. Versuchen Sie es morgen erneut.
+              </p>
+              {resetCountdown > 0 && (
+                <div className="flex items-center gap-2 rounded-xl border border-border bg-secondary/50 px-5 py-3">
+                  <Clock className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm font-semibold tabular-nums text-foreground">
+                    {String(Math.floor(resetCountdown / 3600)).padStart(2, "0")}:
+                    {String(Math.floor((resetCountdown % 3600) / 60)).padStart(2, "0")}:
+                    {String(resetCountdown % 60).padStart(2, "0")}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    bis zur naechsten Generierung
+                  </span>
+                </div>
+              )}
             </div>
           )}
 

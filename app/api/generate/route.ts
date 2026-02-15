@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+import { checkRateLimit } from "@/lib/rate-limit";
+import { verifyTurnstile } from "@/lib/turnstile";
 
 /* ───────────────────────────── Prompts ───────────────────────────── */
 
@@ -21,6 +23,16 @@ function buildLebenslaufPrompt(person: PersonType): string {
   return `Edit this photo to create a professional German business headshot for a CV. Keep the exact same person and face, keep all facial hair exactly as-is. Put the person in ${clothing}. Change the background to a clean neutral soft grey gradient. Apply soft flattering studio lighting. The person should have a friendly confident expression with a slight smile, eyes open, looking at camera. Head and shoulders framing. Photorealistic, 8k resolution, sharp focus.`;
 }
 
+/* ─────────────────────────── Helpers ─────────────────────────────── */
+
+function getClientIp(req: NextRequest): string {
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip") ||
+    "unknown"
+  );
+}
+
 /* ────────────────────────── API Handler ──────────────────────────── */
 
 export const maxDuration = 300;
@@ -37,6 +49,50 @@ export async function POST(req: NextRequest) {
   }
 
   const falKey = rawKey.trim().replace(/^[.\s]+/, "").replace(/[.\s]+$/, "");
+
+  /* ── Security: extract IP ─────────────────────────────────────── */
+  const ip = getClientIp(req);
+
+  /* ── Security: Turnstile bot protection ────────────────────────── */
+  try {
+    const peekData = await req.clone().formData();
+    const turnstileToken = peekData.get("turnstileToken") as string | null;
+
+    if (!turnstileToken && process.env.TURNSTILE_SECRET_KEY) {
+      return NextResponse.json(
+        { error: "Sicherheitstoken fehlt. Bitte laden Sie die Seite neu." },
+        { status: 403 }
+      );
+    }
+
+    if (turnstileToken) {
+      const valid = await verifyTurnstile(turnstileToken, ip);
+      if (!valid) {
+        return NextResponse.json(
+          { error: "Sicherheitspruefung fehlgeschlagen. Bitte versuchen Sie es erneut." },
+          { status: 403 }
+        );
+      }
+    }
+  } catch (err) {
+    console.error("[v0] Turnstile check error:", err);
+    // Fail open
+  }
+
+  /* ── Security: Rate limiting (1 per day per IP) ────────────────── */
+  const rateLimit = await checkRateLimit(ip);
+  if (!rateLimit.allowed) {
+    const hours = Math.floor(rateLimit.resetInSeconds / 3600);
+    const minutes = Math.ceil((rateLimit.resetInSeconds % 3600) / 60);
+    return NextResponse.json(
+      {
+        error: `Tageslimit erreicht. Sie koennen in ${hours}h ${minutes}min ein neues Foto generieren.`,
+        resetInSeconds: rateLimit.resetInSeconds,
+        rateLimited: true,
+      },
+      { status: 429 }
+    );
+  }
 
   try {
     const formData = await req.formData();
