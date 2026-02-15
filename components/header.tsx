@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Camera, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Header({ onScrollToUpload }: { onScrollToUpload: () => void }) {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -44,7 +45,8 @@ export function Header({ onScrollToUpload }: { onScrollToUpload: () => void }) {
           </a>
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
           <button
             onClick={onScrollToUpload}
             className="hidden rounded-lg bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground transition-all hover:brightness-110 active:scale-[0.97] sm:block"

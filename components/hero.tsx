@@ -13,10 +13,10 @@ export function Hero({ onScrollToUpload }: { onScrollToUpload: () => void }) {
 
       {/* Grid overlay */}
       <div
-        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.03]"
+        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.04] dark:opacity-[0.03]"
         style={{
           backgroundImage:
-            "linear-gradient(hsl(210 20% 96%) 1px, transparent 1px), linear-gradient(90deg, hsl(210 20% 96%) 1px, transparent 1px)",
+            "linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)",
           backgroundSize: "60px 60px",
         }}
       />

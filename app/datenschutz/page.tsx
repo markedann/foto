@@ -8,24 +8,24 @@ export const metadata: Metadata = {
 
 export default function Datenschutz() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-50/50 to-white">
-      <div className="mx-auto max-w-3xl px-4 py-16">
+    <div className="min-h-screen bg-background">
+      <div className="mx-auto max-w-3xl px-5 py-16">
         <Link
           href="/"
-          className="mb-10 inline-flex items-center gap-2 rounded-full border-2 border-pink-200 bg-white px-5 py-2.5 text-sm font-bold text-pink-600 shadow-sm transition-all hover:border-pink-300 hover:shadow-md"
+          className="mb-10 inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-2.5 text-sm font-bold text-primary shadow-sm transition-all hover:border-primary/30 hover:shadow-md"
         >
           <ArrowLeft className="h-4 w-4" />
           Zurueck zur Startseite
         </Link>
 
-        <div className="rounded-3xl border-2 border-pink-100 bg-white p-8 shadow-xl shadow-pink-100/20 md:p-12">
-          <h1 className="mb-8 text-4xl font-extrabold tracking-tight text-gray-900">
+        <div className="rounded-2xl border border-border bg-card p-8 shadow-lg md:p-12">
+          <h1 className="mb-8 font-display text-4xl font-extrabold tracking-tight text-foreground">
             Datenschutzerklaerung
           </h1>
 
-          <div className="space-y-6 text-gray-600 leading-relaxed">
+          <div className="space-y-6 leading-relaxed text-muted-foreground">
             <section>
-              <h2 className="mb-2 text-lg font-bold text-gray-800">
+              <h2 className="mb-2 text-lg font-bold text-foreground">
                 1. Datenschutz auf einen Blick
               </h2>
               <p className="text-sm">
@@ -37,10 +37,10 @@ export default function Datenschutz() {
             </section>
 
             <section>
-              <h2 className="mb-2 text-lg font-bold text-gray-800">
+              <h2 className="mb-2 text-lg font-bold text-foreground">
                 2. Datenerfassung auf dieser Website
               </h2>
-              <h3 className="mb-1 font-semibold text-gray-700">
+              <h3 className="mb-1 font-semibold text-foreground/80">
                 Wer ist verantwortlich fuer die Datenerfassung?
               </h3>
               <p className="mb-3 text-sm">
@@ -48,7 +48,7 @@ export default function Datenschutz() {
                 Websitebetreiber. Dessen Kontaktdaten koennen Sie dem Impressum
                 dieser Website entnehmen.
               </p>
-              <h3 className="mb-1 font-semibold text-gray-700">
+              <h3 className="mb-1 font-semibold text-foreground/80">
                 Wie erfassen wir Ihre Daten?
               </h3>
               <p className="text-sm">
@@ -61,14 +61,14 @@ export default function Datenschutz() {
             </section>
 
             <section>
-              <h2 className="mb-2 text-lg font-bold text-gray-800">
+              <h2 className="mb-2 text-lg font-bold text-foreground">
                 3. Verarbeitung hochgeladener Fotos
               </h2>
               <p className="text-sm">
                 Wenn Sie ein Foto zur Erstellung eines Passfotos hochladen, wird
                 dieses Bild ausschliesslich zur einmaligen Verarbeitung an unseren
                 KI-Dienstleister uebermittelt. Das Foto wird{" "}
-                <strong>nicht dauerhaft gespeichert</strong> und nach der
+                <strong className="text-foreground">nicht dauerhaft gespeichert</strong> und nach der
                 Verarbeitung sofort geloescht. Es findet keine Speicherung auf
                 unseren Servern statt. Der generierte Passfoto-Download wird
                 ausschliesslich in Ihrem Browser verarbeitet.
@@ -76,7 +76,7 @@ export default function Datenschutz() {
             </section>
 
             <section>
-              <h2 className="mb-2 text-lg font-bold text-gray-800">
+              <h2 className="mb-2 text-lg font-bold text-foreground">
                 4. Hosting
               </h2>
               <p className="text-sm">
@@ -91,17 +91,17 @@ export default function Datenschutz() {
             </section>
 
             <section>
-              <h2 className="mb-2 text-lg font-bold text-gray-800">
+              <h2 className="mb-2 text-lg font-bold text-foreground">
                 5. Allgemeine Hinweise und Pflichtinformationen
               </h2>
-              <h3 className="mb-1 font-semibold text-gray-700">Datenschutz</h3>
+              <h3 className="mb-1 font-semibold text-foreground/80">Datenschutz</h3>
               <p className="mb-3 text-sm">
                 Die Betreiber dieser Seiten nehmen den Schutz Ihrer persoenlichen
                 Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten
                 vertraulich und entsprechend den gesetzlichen
                 Datenschutzvorschriften sowie dieser Datenschutzerklaerung.
               </p>
-              <h3 className="mb-1 font-semibold text-gray-700">
+              <h3 className="mb-1 font-semibold text-foreground/80">
                 Hinweis zur verantwortlichen Stelle
               </h3>
               <p className="text-sm">
@@ -111,7 +111,7 @@ export default function Datenschutz() {
             </section>
 
             <section>
-              <h2 className="mb-2 text-lg font-bold text-gray-800">
+              <h2 className="mb-2 text-lg font-bold text-foreground">
                 6. Ihre Rechte
               </h2>
               <p className="text-sm">
@@ -127,7 +127,7 @@ export default function Datenschutz() {
             </section>
 
             <section>
-              <h2 className="mb-2 text-lg font-bold text-gray-800">
+              <h2 className="mb-2 text-lg font-bold text-foreground">
                 7. Cookies
               </h2>
               <p className="text-sm">
