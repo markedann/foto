@@ -2,11 +2,24 @@ import { NextRequest, NextResponse } from "next/server";
 
 /* ───────────────────────────── Prompts ───────────────────────────── */
 
-const BIOMETRIC_PROMPT =
-  "Edit this photo to create a professional German biometric passport photo. Keep the exact same person and face. Remove all facial hair completely, make the face clean-shaven. Put the person in a dark navy suit jacket with a white dress shirt and dark tie. Change the background to a solid plain light grey with no shadows. Apply soft even studio lighting. The person should have a neutral expression, mouth closed, eyes open, looking straight at camera. Center the head, passport crop framing. Photorealistic, 8k resolution, sharp focus.";
+type PersonType = "man" | "woman" | "teen_male" | "teen_female";
 
-const LEBENSLAUF_PROMPT =
-  "Edit this photo to create a professional German business headshot for a CV. Keep the exact same person and face, keep all facial hair exactly as-is. Put the person in a dark navy suit jacket with a white dress shirt and dark tie. Change the background to a clean neutral soft grey gradient. Apply soft flattering studio lighting. The person should have a friendly confident expression with a slight smile, eyes open, looking at camera. Head and shoulders framing. Photorealistic, 8k resolution, sharp focus.";
+const clothingMap: Record<PersonType, string> = {
+  man: "a dark navy suit jacket with a white dress shirt and dark tie",
+  woman: "a professional dark navy blazer with an elegant white blouse, no tie",
+  teen_male: "a clean dark navy blazer over a crisp white dress shirt, no tie, age-appropriate smart look",
+  teen_female: "a neat dark navy blazer over a clean white blouse, no tie, age-appropriate smart look",
+};
+
+function buildBiometricPrompt(person: PersonType): string {
+  const clothing = clothingMap[person];
+  return `Edit this photo to create a professional German biometric passport photo. Keep the exact same person and face. Remove all facial hair completely, make the face clean-shaven. Put the person in ${clothing}. Change the background to a solid plain light grey with no shadows. Apply soft even studio lighting. The person should have a neutral expression, mouth closed, eyes open, looking straight at camera. Center the head, passport crop framing. Photorealistic, 8k resolution, sharp focus.`;
+}
+
+function buildLebenslaufPrompt(person: PersonType): string {
+  const clothing = clothingMap[person];
+  return `Edit this photo to create a professional German business headshot for a CV. Keep the exact same person and face, keep all facial hair exactly as-is. Put the person in ${clothing}. Change the background to a clean neutral soft grey gradient. Apply soft flattering studio lighting. The person should have a friendly confident expression with a slight smile, eyes open, looking at camera. Head and shoulders framing. Photorealistic, 8k resolution, sharp focus.`;
+}
 
 /* ────────────────────────── API Handler ──────────────────────────── */
 
@@ -36,8 +49,11 @@ export async function POST(req: NextRequest) {
     }
 
     const photoType = (formData.get("photoType") as string) || "biometric";
+    const personType = ((formData.get("personType") as string) || "man") as PersonType;
+    const validPersonTypes: PersonType[] = ["man", "woman", "teen_male", "teen_female"];
+    const safePerson = validPersonTypes.includes(personType) ? personType : "man";
     const prompt =
-      photoType === "lebenslauf" ? LEBENSLAUF_PROMPT : BIOMETRIC_PROMPT;
+      photoType === "lebenslauf" ? buildLebenslaufPrompt(safePerson) : buildBiometricPrompt(safePerson);
 
     // Convert image to base64 data URI -- fal.ai accepts this in image_urls
     const arrayBuffer = await file.arrayBuffer();
@@ -48,6 +64,8 @@ export async function POST(req: NextRequest) {
     console.log(
       "[v0] Submitting to nano-banana-pro/edit (sync) | type:",
       photoType,
+      "| person:",
+      safePerson,
       "| size:",
       Math.round(arrayBuffer.byteLength / 1024),
       "KB"

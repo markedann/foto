@@ -15,10 +15,23 @@ import {
   ImageIcon,
   FileCheck,
   Briefcase,
+  Users,
 } from "lucide-react";
 
 type Status = "idle" | "preview" | "loading" | "done" | "error";
 type PhotoType = "biometric" | "lebenslauf";
+type PersonType = "man" | "woman" | "teen_male" | "teen_female";
+
+const personTypeOptions: {
+  value: PersonType;
+  label: string;
+  icon: string;
+}[] = [
+  { value: "man", label: "Mann", icon: "M" },
+  { value: "woman", label: "Frau", icon: "F" },
+  { value: "teen_male", label: "Jugendlicher", icon: "Jm" },
+  { value: "teen_female", label: "Jugendliche", icon: "Jw" },
+];
 
 const photoTypeOptions: {
   value: PhotoType;
@@ -202,6 +215,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
 ) {
   const [status, setStatus] = useState<Status>("idle");
   const [photoType, setPhotoType] = useState<PhotoType>("biometric");
+  const [personType, setPersonType] = useState<PersonType>("man");
   const [originalUrl, setOriginalUrl] = useState<string | null>(null);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -275,6 +289,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
       const formData = new FormData();
       formData.append("image", compressed, "photo.jpg");
       formData.append("photoType", photoType);
+      formData.append("personType", personType);
 
       const res = await fetch("/api/generate", {
         method: "POST",
@@ -418,6 +433,50 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
                     </p>
                   </div>
                 )}
+              </div>
+
+              {/* Person Type Selector */}
+              <div className="border-b border-border px-6 py-4 md:px-8 md:py-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <Users className="h-3.5 w-3.5 text-muted-foreground" />
+                  <p className="text-sm font-semibold text-foreground">
+                    Wer ist auf dem Foto?
+                  </p>
+                </div>
+                <div className="grid grid-cols-4 gap-2">
+                  {personTypeOptions.map((option) => {
+                    const isSelected = personType === option.value;
+                    return (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => setPersonType(option.value)}
+                        className={`flex flex-col items-center gap-1.5 rounded-xl border-2 px-2 py-3 text-center transition-all ${
+                          isSelected
+                            ? "border-primary bg-primary/5 shadow-sm"
+                            : "border-border bg-card hover:border-muted-foreground/30 hover:bg-secondary/50"
+                        }`}
+                      >
+                        <div
+                          className={`flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold transition-colors ${
+                            isSelected
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-secondary text-muted-foreground"
+                          }`}
+                        >
+                          {option.icon}
+                        </div>
+                        <span
+                          className={`text-xs font-medium leading-tight ${
+                            isSelected ? "text-primary" : "text-foreground"
+                          }`}
+                        >
+                          {option.label}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* Drop Zone */}
