@@ -40,15 +40,15 @@ export function Hero({ onScrollToUpload }: { onScrollToUpload: () => void }) {
           in Sekunden
         </h1>
 
-        <p className="mx-auto mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground md:text-lg">
+        <p className="mx-auto mt-4 max-w-xl text-pretty text-sm leading-relaxed text-muted-foreground sm:mt-6 sm:text-base md:text-lg">
           Lade ein Selfie hoch und unsere KI erstellt ein biometrisches Passfoto
           nach deutschen Standards -- fuer Reisepass, Ausweis und Bewerbungen.
         </p>
 
-        <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:mt-10 sm:flex-row">
           <button
             onClick={onScrollToUpload}
-            className="group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl bg-primary px-8 py-4 text-base font-semibold text-primary-foreground transition-all hover:brightness-110 active:scale-[0.98] sm:w-auto"
+            className="group relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-xl bg-primary px-6 py-3.5 text-sm font-semibold text-primary-foreground transition-all hover:brightness-110 active:scale-[0.98] sm:w-auto sm:px-8 sm:py-4 sm:text-base"
           >
             <span className="absolute inset-0 bg-gradient-to-r from-primary via-primary to-accent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
             <span className="relative flex items-center gap-2.5">

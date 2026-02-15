@@ -3,8 +3,8 @@ import { Camera } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-card px-4 py-10">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-6">
+    <footer className="border-t border-border bg-card px-4 py-8 sm:py-10">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 sm:gap-6">
         <div className="flex items-center gap-2">
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <Camera className="h-3.5 w-3.5" />
@@ -14,7 +14,7 @@ export function Footer() {
           </span>
         </div>
 
-        <nav className="flex flex-wrap items-center justify-center gap-6 text-sm">
+        <nav className="flex flex-wrap items-center justify-center gap-4 text-sm sm:gap-6">
           <Link
             href="/impressum"
             className="font-medium text-muted-foreground transition-colors hover:text-foreground"

@@ -9,17 +9,17 @@ export const metadata: Metadata = {
 export default function Impressum() {
   return (
     <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-3xl px-5 py-16">
+      <div className="mx-auto max-w-3xl px-4 py-10 sm:px-5 sm:py-16">
         <Link
           href="/"
-          className="mb-10 inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-2.5 text-sm font-bold text-primary shadow-sm transition-all hover:border-primary/30 hover:shadow-md"
+          className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-bold text-primary shadow-sm transition-all hover:border-primary/30 hover:shadow-md sm:mb-10 sm:px-5 sm:py-2.5"
         >
           <ArrowLeft className="h-4 w-4" />
           Zurueck zur Startseite
         </Link>
 
-        <div className="rounded-2xl border border-border bg-card p-8 shadow-lg md:p-12">
-          <h1 className="mb-8 font-display text-4xl font-extrabold tracking-tight text-foreground">
+        <div className="rounded-2xl border border-border bg-card p-5 shadow-lg sm:p-8 md:p-12">
+          <h1 className="mb-6 font-display text-2xl font-extrabold tracking-tight text-foreground sm:mb-8 sm:text-4xl">
             Impressum
           </h1>
 

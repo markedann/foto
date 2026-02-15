@@ -50,14 +50,14 @@ export function Features() {
   return (
     <section id="features" className="relative px-4 py-14 sm:px-5 md:py-28">
       <div className="mx-auto max-w-6xl">
-        <div className="mb-14 text-center">
-          <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
+        <div className="mb-8 text-center sm:mb-14">
+          <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary sm:mb-4">
             Vorteile
           </span>
-          <h2 className="text-balance font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl lg:text-5xl">
+          <h2 className="text-balance font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl lg:text-5xl">
             Warum FotoProfi?
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-base text-muted-foreground">
+          <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground sm:mt-4 sm:text-base">
             Alles was du fuer das perfekte Dokumentenfoto brauchst -- kostenlos und sofort.
           </p>
         </div>

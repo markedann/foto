@@ -141,10 +141,10 @@ function GenerationTimer({ steps }: { steps: typeof biometricSteps }) {
   const StepIcon = steps[currentStep].icon;
 
   return (
-    <div className="flex flex-col items-center px-6 py-16 md:px-8 md:py-20">
+    <div className="flex flex-col items-center px-4 py-10 sm:px-6 sm:py-16 md:px-8 md:py-20">
       {/* Animated circle */}
-      <div className="relative mb-8">
-        <svg className="h-28 w-28" viewBox="0 0 120 120">
+      <div className="relative mb-6 sm:mb-8">
+        <svg className="h-24 w-24 sm:h-28 sm:w-28" viewBox="0 0 120 120">
           <circle
             cx="60"
             cy="60"
@@ -176,10 +176,10 @@ function GenerationTimer({ steps }: { steps: typeof biometricSteps }) {
       </div>
 
       {/* Current step label */}
-      <p className="mb-2 text-center text-base font-semibold text-foreground animate-fade-in-up" key={isLastStep ? waitMsgIndex : currentStep}>
+      <p className="mb-2 text-center text-sm font-semibold text-foreground animate-fade-in-up sm:text-base" key={isLastStep ? waitMsgIndex : currentStep}>
         {isLastStep ? waitingMessages[waitMsgIndex] : steps[currentStep].label}
       </p>
-      <p className="mb-8 text-center text-sm text-muted-foreground">
+      <p className="mb-6 text-center text-xs text-muted-foreground sm:mb-8 sm:text-sm">
         {Math.round(elapsed)} Sek. vergangen
       </p>
 
@@ -463,7 +463,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
   };
 
   return (
-    <section id="upload" className="relative px-4 py-16 md:py-24" ref={ref}>
+    <section id="upload" className="relative px-4 py-14 sm:px-5 md:py-24" ref={ref}>
       {/* Cloudflare Turnstile invisible widget */}
       {SITE_KEY && (
         <Script
@@ -475,14 +475,14 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
       <div ref={turnstileContainerRef} className="hidden" />
 
       <div className="mx-auto max-w-2xl">
-        <div className="mb-10 text-center">
+        <div className="mb-8 text-center sm:mb-10">
           <span className="mb-3 inline-block rounded-md bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
             Upload
           </span>
-          <h2 className="text-balance font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+          <h2 className="text-balance font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
             Foto <span className="text-primary">hochladen</span>
           </h2>
-          <p className="mt-3 text-base text-muted-foreground">
+          <p className="mt-3 text-sm text-muted-foreground sm:text-base">
             Lade dein Selfie hoch und erhalte ein professionelles Passfoto.
           </p>
         </div>

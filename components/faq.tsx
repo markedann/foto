@@ -35,13 +35,13 @@ export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="px-4 py-16 md:py-24">
+    <section id="faq" className="px-4 py-14 sm:px-5 md:py-24">
       <div className="mx-auto max-w-2xl">
-        <div className="mb-10 text-center">
+        <div className="mb-8 text-center sm:mb-10">
           <span className="mb-3 inline-block rounded-md bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
             FAQ
           </span>
-          <h2 className="text-balance font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+          <h2 className="text-balance font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
             Haeufig gestellte <span className="text-primary">Fragen</span>
           </h2>
         </div>

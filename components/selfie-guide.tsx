@@ -48,22 +48,22 @@ const dontList = [
 
 export function SelfieGuide() {
   return (
-    <section id="selfie-guide" className="relative px-4 py-16 md:py-24">
+    <section id="selfie-guide" className="relative px-4 py-14 sm:px-5 md:py-24">
       <div className="mx-auto max-w-5xl">
-        <div className="mb-12 text-center">
+        <div className="mb-8 text-center sm:mb-12">
           <span className="mb-3 inline-block rounded-md bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
             Vorbereitung
           </span>
-          <h2 className="text-balance font-display text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+          <h2 className="text-balance font-display text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
             So machst du das perfekte Selfie
           </h2>
-          <p className="mx-auto mt-3 max-w-lg text-base text-muted-foreground">
+          <p className="mx-auto mt-3 max-w-lg text-sm text-muted-foreground sm:text-base">
             Befolge diese einfachen Tipps, damit unsere KI das bestmoegliche Passfoto fuer dich erstellen kann.
           </p>
         </div>
 
         {/* Tips grid */}
-        <div className="mb-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mb-8 grid gap-3 sm:mb-12 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
           {tips.map((tip) => (
             <div
               key={tip.title}
@@ -84,7 +84,7 @@ export function SelfieGuide() {
 
         {/* Do / Don't */}
         <div className="grid gap-4 sm:grid-cols-2">
-          <div className="rounded-xl border border-accent/30 bg-accent/5 p-6">
+          <div className="rounded-xl border border-accent/30 bg-accent/5 p-4 sm:p-6">
             <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold text-accent">
               <Check className="h-4 w-4" />
               Richtig
@@ -101,7 +101,7 @@ export function SelfieGuide() {
             </ul>
           </div>
 
-          <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-6">
+          <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-4 sm:p-6">
             <h3 className="mb-4 flex items-center gap-2 text-sm font-semibold text-destructive">
               <X className="h-4 w-4" />
               Vermeiden

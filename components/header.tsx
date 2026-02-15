@@ -23,7 +23,7 @@ export function Header({ onScrollToUpload }: { onScrollToUpload: () => void }) {
           : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 lg:px-8">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-5 sm:py-4 lg:px-8">
         <Link href="/" className="flex items-center gap-2.5">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
             <Camera className="h-4.5 w-4.5" />
@@ -64,7 +64,7 @@ export function Header({ onScrollToUpload }: { onScrollToUpload: () => void }) {
       </div>
 
       {mobileOpen && (
-        <div className="border-t border-border/50 bg-background/95 px-5 pb-5 pt-3 backdrop-blur-xl md:hidden">
+        <div className="border-t border-border/50 bg-background/95 px-4 pb-5 pt-3 backdrop-blur-xl sm:px-5 md:hidden">
           <nav className="flex flex-col gap-1">
             {[
               { href: "/#features", label: "Vorteile" },
