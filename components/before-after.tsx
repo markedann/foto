@@ -17,7 +17,7 @@ const examples = [
 
 export function BeforeAfter() {
   return (
-    <section id="before-after" className="relative px-5 py-20 md:py-28">
+    <section id="before-after" className="relative px-4 py-14 sm:px-5 md:py-28">
       {/* Subtle glow */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute left-1/2 top-1/2 h-[500px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.04] blur-[120px]" />
@@ -36,7 +36,7 @@ export function BeforeAfter() {
           </p>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-2">
+        <div className="grid gap-5 sm:gap-8 md:grid-cols-2">
           {examples.map((example, idx) => (
             <div
               key={idx}
@@ -58,9 +58,9 @@ export function BeforeAfter() {
                 </div>
 
                 {/* Arrow */}
-                <div className="flex items-center justify-center px-2">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/25">
-                    <ArrowRight className="h-4 w-4" />
+                <div className="flex items-center justify-center px-1 sm:px-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/25 sm:h-9 sm:w-9">
+                    <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                   </div>
                 </div>
 

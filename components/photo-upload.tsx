@@ -492,7 +492,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
           {status === "idle" && (
             <div className="flex flex-col">
               {/* Photo Type Selector */}
-              <div className="border-b border-border px-6 py-5 md:px-8 md:py-6">
+              <div className="border-b border-border px-4 py-4 sm:px-6 sm:py-5 md:px-8 md:py-6">
                 <p className="mb-3 text-sm font-semibold text-foreground">
                   Welches Foto brauchst du?
                 </p>
@@ -559,14 +559,14 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
               </div>
 
               {/* Person Type Selector */}
-              <div className="border-b border-border px-6 py-4 md:px-8 md:py-5">
+              <div className="border-b border-border px-4 py-4 sm:px-6 md:px-8 md:py-5">
                 <div className="flex items-center gap-2 mb-3">
                   <Users className="h-3.5 w-3.5 text-muted-foreground" />
                   <p className="text-sm font-semibold text-foreground">
                     Wer ist auf dem Foto?
                   </p>
                 </div>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                   {personTypeOptions.map((option) => {
                     const isSelected = personType === option.value;
                     return (
@@ -611,7 +611,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
                 onDragLeave={() => setDragActive(false)}
                 onDrop={handleDrop}
                 onClick={() => fileInputRef.current?.click()}
-                className={`flex cursor-pointer flex-col items-center justify-center px-8 py-16 transition-all ${
+                className={`flex cursor-pointer flex-col items-center justify-center px-4 py-10 sm:px-8 sm:py-16 transition-all ${
                   dragActive
                     ? "bg-primary/5"
                     : "hover:bg-secondary/50"
@@ -642,7 +642,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
 
           {/* Preview */}
           {status === "preview" && originalUrl && (
-            <div className="p-6 md:p-8">
+            <div className="p-4 sm:p-6 md:p-8">
               {/* Selected type badge */}
               <div className="mb-4 flex items-center justify-center">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
@@ -684,7 +684,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
 
           {/* Done */}
           {status === "done" && resultUrl && (
-            <div className="p-6 md:p-8">
+            <div className="p-4 sm:p-6 md:p-8">
               <div className="mb-2 flex items-center justify-center">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
                   {photoType === "biometric" ? (
@@ -728,7 +728,7 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
                 </div>
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex flex-col gap-2.5 sm:flex-row sm:gap-3">
                 <button
                   onClick={handleDownload}
                   className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground shadow-md shadow-primary/20 transition-all hover:bg-primary/90 active:scale-[0.98]"
@@ -760,13 +760,15 @@ export const PhotoUpload = forwardRef<HTMLDivElement>(function PhotoUpload(
                 Sie haben Ihr kostenloses Foto fuer heute bereits generiert. Versuchen Sie es morgen erneut.
               </p>
               {resetCountdown > 0 && (
-                <div className="flex items-center gap-2 rounded-xl border border-border bg-secondary/50 px-5 py-3">
-                  <Clock className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm font-semibold tabular-nums text-foreground">
-                    {String(Math.floor(resetCountdown / 3600)).padStart(2, "0")}:
-                    {String(Math.floor((resetCountdown % 3600) / 60)).padStart(2, "0")}:
-                    {String(resetCountdown % 60).padStart(2, "0")}
-                  </span>
+                <div className="flex flex-col items-center gap-1.5 rounded-xl border border-border bg-secondary/50 px-4 py-3 sm:flex-row sm:gap-2 sm:px-5">
+                  <div className="flex items-center gap-2">
+                    <Clock className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-sm font-semibold tabular-nums text-foreground">
+                      {String(Math.floor(resetCountdown / 3600)).padStart(2, "0")}:
+                      {String(Math.floor((resetCountdown % 3600) / 60)).padStart(2, "0")}:
+                      {String(resetCountdown % 60).padStart(2, "0")}
+                    </span>
+                  </div>
                   <span className="text-xs text-muted-foreground">
                     bis zur naechsten Generierung
                   </span>

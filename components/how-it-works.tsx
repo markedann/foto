@@ -26,7 +26,7 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="relative px-5 py-20 md:py-28">
+    <section id="how-it-works" className="relative px-4 py-14 sm:px-5 md:py-28">
       {/* Background accent */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute left-0 top-1/2 h-[400px] w-[300px] -translate-y-1/2 rounded-full bg-accent/[0.03] blur-[100px]" />

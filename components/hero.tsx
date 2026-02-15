@@ -4,7 +4,7 @@ import { ArrowDown, Shield, Sparkles, Zap } from "lucide-react";
 
 export function Hero({ onScrollToUpload }: { onScrollToUpload: () => void }) {
   return (
-    <section className="relative overflow-hidden px-5 pb-24 pt-32 md:pb-36 md:pt-44">
+    <section className="relative overflow-hidden px-4 pb-16 pt-28 sm:px-5 md:pb-36 md:pt-44">
       {/* Background effects */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute left-1/2 top-0 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.07] blur-[120px]" />
@@ -22,7 +22,7 @@ export function Hero({ onScrollToUpload }: { onScrollToUpload: () => void }) {
       />
 
       <div className="mx-auto max-w-4xl text-center">
-        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-secondary/50 px-4 py-2 text-sm text-muted-foreground backdrop-blur-sm">
+        <div className="mb-6 inline-flex flex-wrap items-center justify-center gap-1.5 rounded-full border border-border bg-secondary/50 px-3 py-1.5 text-xs text-muted-foreground backdrop-blur-sm sm:gap-2 sm:px-4 sm:py-2 sm:text-sm">
           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent/20">
             <Sparkles className="h-3 w-3 text-accent" />
           </span>
@@ -31,7 +31,7 @@ export function Hero({ onScrollToUpload }: { onScrollToUpload: () => void }) {
           <span className="font-medium">Keine Registrierung</span>
         </div>
 
-        <h1 className="text-balance font-display text-4xl font-bold leading-[1.08] tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
+        <h1 className="text-balance font-display text-3xl font-bold leading-[1.1] tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-7xl">
           Dein professionelles
           <br />
           <span className="bg-gradient-to-r from-primary via-primary to-accent bg-clip-text text-transparent">
@@ -59,17 +59,17 @@ export function Hero({ onScrollToUpload }: { onScrollToUpload: () => void }) {
         </div>
 
         {/* Stats row */}
-        <div className="mx-auto mt-16 grid max-w-2xl grid-cols-3 gap-6">
+        <div className="mx-auto mt-10 grid max-w-2xl grid-cols-3 gap-3 sm:mt-16 sm:gap-6">
           {[
             { icon: Zap, value: "< 30s", label: "Ergebnis" },
             { icon: Shield, value: "DSGVO", label: "Konform" },
             { icon: Sparkles, value: "100%", label: "Kostenlos" },
           ].map((stat) => (
             <div key={stat.label} className="flex flex-col items-center">
-              <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-xl bg-secondary text-primary">
-                <stat.icon className="h-4.5 w-4.5" />
+              <div className="mb-1.5 flex h-9 w-9 items-center justify-center rounded-xl bg-secondary text-primary sm:mb-2 sm:h-10 sm:w-10">
+                <stat.icon className="h-4 w-4 sm:h-4.5 sm:w-4.5" />
               </div>
-              <span className="font-display text-lg font-bold text-foreground md:text-xl">
+              <span className="font-display text-base font-bold text-foreground sm:text-lg md:text-xl">
                 {stat.value}
               </span>
               <span className="text-xs text-muted-foreground">{stat.label}</span>
